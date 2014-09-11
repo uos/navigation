@@ -50,6 +50,10 @@ namespace dwa_local_planner {
       setup_ = true;
     }
     boost::mutex::scoped_lock l(configuration_mutex_);
+
+    acc_lim_[0] = config.acc_lim_x;
+    acc_lim_[1] = config.acc_lim_y;
+    acc_lim_[2] = config.acc_lim_theta;
  
     max_vel_x_ = config.max_vel_x;
     min_vel_x_ = config.min_vel_x;
@@ -118,11 +122,6 @@ namespace dwa_local_planner {
         costmap_.getResolution(), costmap_.getOriginX(), costmap_.getOriginY());
     ros::NodeHandle pn("~/" + name);
 
-    double acc_lim_x, acc_lim_y, acc_lim_th;
-    pn.param("acc_lim_x", acc_lim_x, 2.5);
-    pn.param("acc_lim_y", acc_lim_y, 2.5);
-    pn.param("acc_lim_th", acc_lim_th, 3.2);
-
     //Assuming this planner is being run within the navigation stack, we can
     //just do an upward search for the frequency at which its being run. This
     //also allows the frequency to be overwritten locally.
@@ -142,10 +141,6 @@ namespace dwa_local_planner {
       }
     }
     ROS_INFO("Sim period is set to %.2f", sim_period_);
-
-    acc_lim_[0] = acc_lim_x;
-    acc_lim_[1] = acc_lim_y;
-    acc_lim_[2] = acc_lim_th;
 
     dynamic_reconfigure::Server<DWAPlannerConfig>::CallbackType cb = boost::bind(&DWAPlanner::reconfigureCB, this, _1, _2);
     dsrv_.setCallback(cb);
