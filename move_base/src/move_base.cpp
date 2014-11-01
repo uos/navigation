@@ -172,6 +172,9 @@ namespace move_base {
     //advertise a service for getting a plan
     make_plan_srv_ = private_nh.advertiseService("make_plan", &MoveBase::planService, this);
 
+    //advertise a service for getting multiple plans
+    make_multiple_plans_srv_ = private_nh.advertiseService("make_multiple_plans", &MoveBase::multiplePlansService, this);
+
     //advertise a service for clearing the costmaps
     clear_costmaps_srv_ = private_nh.advertiseService("clear_costmaps", &MoveBase::clearCostmapsService, this);
 
@@ -479,6 +482,39 @@ namespace move_base {
     resp.plan.poses.resize(global_plan.size());
     for(unsigned int i = 0; i < global_plan.size(); ++i){
       resp.plan.poses[i] = global_plan[i];
+    }
+
+    return true;
+  }
+
+  /**
+    Elements of the returned path include the goal but not the start pose.
+    Despite the pose message type, path elements have no (meaningful) rotation.
+    */
+  bool MoveBase::multiplePlansService
+  (
+          move_base_msgs::GetMultiplePlans::Request &req,
+          move_base_msgs::GetMultiplePlans::Response &resp
+  ){
+    if(as_->isActive()){
+      ROS_ERROR("move_base must be in an inactive state to make a plan for an external user");
+      return false;
+    }
+
+    //make sure we have a costmap for our planner
+    if(planner_costmap_ros_ == NULL){
+      ROS_ERROR("move_base cannot make a plan for you because it doesn't have a costmap");
+      return false;
+    }
+
+    resp.plans.resize(req.start.size());
+    size_t maxlen = 5; // TODO: Preallocating the vector size could be better done based on the start-goal distance.
+    for(size_t i = 0; i < req.start.size(); ++i) {
+        resp.plans[i].poses.reserve(maxlen);
+        planner_->makePlan(req.start[i], req.goal[i], resp.plans[i].poses);
+        if(resp.plans[i].poses.size() > maxlen) {
+            maxlen = resp.plans[i].poses.size();
+        }
     }
 
     return true;

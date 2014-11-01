@@ -6,8 +6,14 @@ find_package(catkin REQUIRED
         message_generation
         actionlib_msgs
         geometry_msgs
+        nav_msgs
         )
 
+# services
+add_service_files(
+  FILES
+  GetMultiplePlans.srv
+)
 
 # actions
 add_action_files(
@@ -20,9 +26,13 @@ generate_messages(
     DEPENDENCIES
         actionlib_msgs
         geometry_msgs
+        nav_msgs
 )
 
 catkin_package(
+    CATKIN_DEPENDS 
+        message_runtime
+        actionlib_msgs
+        geometry_msgs
+        nav_msgs
 )
-
-
