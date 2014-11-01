@@ -58,6 +58,7 @@
 
 #include <dynamic_reconfigure/server.h>
 #include "move_base/MoveBaseConfig.h"
+#include "move_base/GetMultiplePlans.h"
 
 namespace move_base {
   //typedefs to help us out with the action server so that we don't hace to type so much
@@ -129,6 +130,14 @@ namespace move_base {
       bool planService(nav_msgs::GetPlan::Request &req, nav_msgs::GetPlan::Response &resp);
 
       /**
+       * @brief  A service call that can be made when the action is inactive that will return multiple plans for a series of start-goal pairs
+       * @param  req The goal request
+       * @param  resp The plan request
+       * @return True if planning succeeded, false otherwise
+       */
+      bool multiplePlansService(move_base::GetMultiplePlans::Request &req, move_base::GetMultiplePlans::Response &resp);
+
+      /**
        * @brief  Make a new global plan
        * @param  goal The goal to plan to
        * @param  plan Will be filled in with the plan made by the planner
@@ -196,7 +205,7 @@ namespace move_base {
       double conservative_reset_dist_, clearing_radius_;
       ros::Publisher current_goal_pub_, vel_pub_, action_goal_pub_;
       ros::Subscriber goal_sub_;
-      ros::ServiceServer make_plan_srv_, clear_unknown_srv_, clear_costmaps_srv_;
+      ros::ServiceServer make_multiple_plans_srv_, make_plan_srv_, clear_unknown_srv_, clear_costmaps_srv_;
       bool shutdown_costmaps_, clearing_roatation_allowed_, recovery_behavior_enabled_;
       double oscillation_timeout_, oscillation_distance_;
 

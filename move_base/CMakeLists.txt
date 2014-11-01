@@ -4,6 +4,9 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 set(ROS_BUILD_TYPE Debug)
 rosbuild_init()
 
+#uncomment if you have defined services
+rosbuild_gensrv()
+
 rosbuild_find_ros_package(dynamic_reconfigure)
 include(${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
 gencfg()
