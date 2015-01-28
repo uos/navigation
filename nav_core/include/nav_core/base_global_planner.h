@@ -70,7 +70,8 @@ namespace nav_core {
                             double& cost)
       {
         cost = 0;
-        makePlan(start, goal, plan);
+        ROS_WARN("makePlan with path cost is not implemented!");
+        return makePlan(start, goal, plan);
       }
 
       /**
