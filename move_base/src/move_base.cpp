@@ -508,10 +508,11 @@ namespace move_base {
     }
 
     resp.plans.resize(req.start.size());
+    resp.plan_costs.resize(resp.plans.size());
     size_t maxlen = 5; // TODO: Preallocating the vector size could be better done based on the start-goal distance.
     for(size_t i = 0; i < req.start.size(); ++i) {
         resp.plans[i].poses.reserve(maxlen);
-        planner_->makePlan(req.start[i], req.goal[i], resp.plans[i].poses);
+        planner_->makePlan(req.start[i], req.goal[i], resp.plans[i].poses, resp.plan_costs[i]);
         if(resp.plans[i].poses.size() > maxlen) {
             maxlen = resp.plans[i].poses.size();
         }
