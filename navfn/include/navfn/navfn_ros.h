@@ -88,14 +88,27 @@ namespace navfn {
 
       /**
        * @brief Given a goal pose in the world, compute a plan
+       * @param start The start pose
+       * @param goal The goal pose
+       * @param plan The plan... filled by the planner
+       * @param cost The plans calculated cost
+       * @return True if a valid plan was found, false otherwise
+       */
+      bool makePlan(const geometry_msgs::PoseStamped& start,
+          const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan, double& cost);
+
+      /**
+       * @brief Given a goal pose in the world, compute a plan
        * @param start The start pose 
        * @param goal The goal pose 
        * @param tolerance The tolerance on the goal point for the planner
        * @param plan The plan... filled by the planner
+       * @param cost The plans calculated cost
        * @return True if a valid plan was found, false otherwise
        */
       bool makePlan(const geometry_msgs::PoseStamped& start, 
-          const geometry_msgs::PoseStamped& goal, double tolerance, std::vector<geometry_msgs::PoseStamped>& plan);
+          const geometry_msgs::PoseStamped& goal, double tolerance, std::vector<geometry_msgs::PoseStamped>& plan,
+          double& cost);
 
       /**
        * @brief  Computes the full navigation function for the map given a point in the world to start from
