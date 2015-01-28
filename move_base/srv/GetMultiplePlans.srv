@@ -1,4 +1,5 @@
 geometry_msgs/PoseStamped[] start
 geometry_msgs/PoseStamped[] goal
 ---
-nav_msgs/Path[] plans 
+nav_msgs/Path[] plans
+float64[] plan_costs 
