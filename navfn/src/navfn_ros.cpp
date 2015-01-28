@@ -239,11 +239,18 @@ namespace navfn {
 
   bool NavfnROS::makePlan(const geometry_msgs::PoseStamped& start, 
       const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan){
-    return makePlan(start, goal, default_tolerance_, plan);
+    double foo;
+    return makePlan(start, goal, default_tolerance_, plan, foo);
+  }
+
+  bool NavfnROS::makePlan(const geometry_msgs::PoseStamped& start,
+      const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan, double& cost){
+    return makePlan(start, goal, default_tolerance_, plan, cost);
   }
 
   bool NavfnROS::makePlan(const geometry_msgs::PoseStamped& start, 
-      const geometry_msgs::PoseStamped& goal, double tolerance, std::vector<geometry_msgs::PoseStamped>& plan){
+      const geometry_msgs::PoseStamped& goal, double tolerance, std::vector<geometry_msgs::PoseStamped>& plan,
+      double& cost){
     boost::mutex::scoped_lock lock(mutex_);
     if(!initialized_){
       ROS_ERROR("This planner has not been initialized yet, but it is being used, please call initialize() before use");
@@ -338,6 +345,8 @@ namespace navfn {
       }
       p.pose.position.y += resolution;
     }
+
+    cost = getPointPotential(best_pose.pose.position);
 
     if(found_legal){
       //extract the plan
