@@ -239,9 +239,9 @@ namespace navfn {
     }
 
     //clear the starting cell within the costmap because we know it can't be an obstacle
-    tf::Stamped<tf::Pose> start_pose;
-    tf::poseStampedMsgToTF(start, start_pose);
-    clearRobotCell(start_pose, mx, my);
+    //tf::Stamped<tf::Pose> start_pose;
+    //tf::poseStampedMsgToTF(start, start_pose);
+    //clearRobotCell(start_pose, mx, my);
 
 #if 0
     {
