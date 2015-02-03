@@ -432,7 +432,7 @@ namespace navfn {
 
       // set goal
       int k = goal[0] + goal[1]*nx;
-      initCost(k,0);
+      initCost(k,costarr[k]);
 
       // find # of obstacle cells
       pc = costarr;
@@ -500,17 +500,17 @@ namespace navfn {
 
         // calculate new potential
         float pot;
-        if (dc >= hf)		// if too large, use ta-only update
+//        if (dc >= hf)		// if too large, use ta-only update
           pot = ta+hf;
-        else			// two-neighbor interpolation update
-        {
-          // use quadratic approximation
-          // might speed this up through table lookup, but still have to 
-          //   do the divide
-          float d = dc/hf;
-          float v = -0.2301*d*d + 0.5307*d + 0.7040;
-          pot = ta + hf*v;
-        }
+//        else			// two-neighbor interpolation update
+//        {
+//          // use quadratic approximation
+//          // might speed this up through table lookup, but still have to
+//          //   do the divide
+//          float d = dc/hf;
+//          float v = -0.2301*d*d + 0.5307*d + 0.7040;
+//          pot = ta + hf*v;
+//        }
 
         //      ROS_INFO("[Update] new pot: %d\n", costarr[n]);
 

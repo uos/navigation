@@ -288,9 +288,9 @@ namespace navfn {
     }
 
     //clear the starting cell within the costmap because we know it can't be an obstacle
-    tf::Stamped<tf::Pose> start_pose;
-    tf::poseStampedMsgToTF(start, start_pose);
-    clearRobotCell(start_pose, mx, my);
+    //tf::Stamped<tf::Pose> start_pose;
+    //tf::poseStampedMsgToTF(start, start_pose);
+    //clearRobotCell(start_pose, mx, my);
 
     //make sure to resize the underlying array that Navfn uses
     planner_->setNavArr(costmap_.getSizeInCellsX(), costmap_.getSizeInCellsY());
