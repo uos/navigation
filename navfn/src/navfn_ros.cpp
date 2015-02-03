@@ -289,7 +289,7 @@ namespace navfn {
     planner_->setGoal(map_start);
 
     //bool success = planner_->calcNavFnAstar();
-    planner_->calcNavFnDijkstra(true);
+    planner_->calcNavFnDijkstra(false);
 
     double resolution = costmap->getResolution();
     geometry_msgs::PoseStamped p, best_pose;
